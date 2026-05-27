@@ -1,10 +1,8 @@
 import { cloneElement, createContext, useContext, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { HiXMark } from 'react-icons/hi2';
 import styled from 'styled-components';
 
-import Button from './Button';
 const StyledModal = styled.div`
   position: fixed;
   top: 50%;
@@ -84,7 +82,7 @@ function MinusButton({ children }) {
   });
 }
 
-function DisplayCounter({ children, counterToShow }) {
+function DisplayCounter({ children }) {
   const { counter } = useContext(CompaundContext);
 
   return cloneElement(children, { showCounter: counter });
