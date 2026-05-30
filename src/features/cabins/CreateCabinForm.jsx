@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form';
+// import { useContext } from 'react';
 
 import Input from '../../ui/Input';
 import Form from '../../ui/Form';
@@ -10,7 +11,9 @@ import FormRow from '../../ui/FormRow';
 import { useCreateCabin } from './useCreateCabin';
 import { useEditCabin } from './useEditCabin';
 
-function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
+// import { ModalContext } from '../../ui/Modal';
+
+function CreateCabinForm({ cabinToEdit = {}, onClose: onCloseModal }) {
   const { isCreating, createCabin } = useCreateCabin();
   const { isEditing, editCabin } = useEditCabin();
   const isWorking = isCreating || isEditing;
@@ -22,6 +25,8 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
     defaultValues: isEditSession ? editValues : {},
   });
   const { errors } = formState;
+
+  // const { openName, close } = useContext(ModalContext);
 
   function onSubmit(data) {
     const image = typeof data.image === 'string' ? data.image : data.image[0];
@@ -52,7 +57,10 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)} type={onCloseModal?'modal':'regular'}>
+    <Form
+      onSubmit={handleSubmit(onSubmit, onError)}
+      type={onCloseModal ? 'modal' : 'regular'}
+    >
       <FormRow label='Cabin name' error={errors?.name?.message}>
         <Input
           type='text'
@@ -136,7 +144,11 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation='secondary'  type='reset' onClick={()=>onCloseModal?.()}>
+        <Button
+          variation='secondary'
+          type='reset'
+          onClick={() => onCloseModal?.()}
+        >
           Cancel
         </Button>
         <Button disabled={isWorking}>

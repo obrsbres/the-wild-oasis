@@ -1,58 +1,52 @@
-import { useState } from 'react';
-
-import styled from 'styled-components';
-
 import Button from '../../ui/Button';
 import CreateCabinForm from './CreateCabinForm';
-import CabinTable from './CabinTable';
-
-import useEscForClose from '../../hooks/useEscForClose';
 import Modal from '../../ui/Modal';
-import Compound from '../../ui/Compaund';
+import Compaund from '../../ui/Compaund';
 
-const StyledH2 = styled.h2`
-  font-size: 2.4rem;
-  color: var(--color-grey-700);
-`;
-
-function MyH2({ showCounter }) {
-  return (
-    <span>
-      <StyledH2>{showCounter}</StyledH2>
-    </span>
-  );
-}
+import { HiXMark } from 'react-icons/hi2';
 
 function AddCabin() {
   return (
-    <>
-      <Modal id='modal-root'>
-        <Modal.Open opens='cabin-form'>
-          <Button variation='secondary'>Add new cabin</Button>
-        </Modal.Open>
-        <Modal.Window name='cabin-form'>
-          <CreateCabinForm />
-        </Modal.Window>
-
-        <Modal.Open opens='table'>
-          <Button>Show table</Button>
-        </Modal.Open>
-        <Modal.Window name='table'>
-          <CabinTable />
-        </Modal.Window>
-      </Modal>
-      <Compound>
-        <Compound.PlusButton>
-          <Button>Add to counter</Button>
-        </Compound.PlusButton>
-        <Compound.DisplayCounter>
-          <MyH2 />
-        </Compound.DisplayCounter>
-        <Compound.MinusButton>
-          <Button>Remove from counter</Button>
-        </Compound.MinusButton>
-      </Compound>
-    </>
+    <div
+      style={{
+        display: 'flex',
+        gap: '2rem',
+        flexWrap: 'wrap',
+        flexDirection: 'column',
+      }}
+    >
+      <div>
+        <Modal>
+          <Modal.Open opens='cabin-form'>
+            <Button variation='primary'>Add new cabin</Button>
+          </Modal.Open>
+          <Modal.Window name='cabin-form'>
+            <CreateCabinForm />
+          </Modal.Window>
+        </Modal>
+      </div>
+      <div>
+        <Compaund>
+          <Compaund.Open>
+            <Button variation='primary'>Show counter</Button>
+          </Compaund.Open>
+          <Compaund.Window>
+            <Compaund.Close>
+              <Button>
+                <HiXMark />
+              </Button>
+            </Compaund.Close>
+            <Compaund.MinusButton>
+              <Button>Drop down</Button>
+            </Compaund.MinusButton>
+            <Compaund.DisplayCounter />
+            <Compaund.PlusButton>
+              <Button>Rise up</Button>
+            </Compaund.PlusButton>
+          </Compaund.Window>
+        </Compaund>
+      </div>
+    </div>
   );
 }
 

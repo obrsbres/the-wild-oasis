@@ -4,6 +4,8 @@ import { createPortal } from 'react-dom';
 import { HiXMark } from 'react-icons/hi2';
 import styled from 'styled-components';
 
+import useCloseOutsideClick from '../hooks/useCloseOutsideClick';
+
 const StyledModal = styled.div`
   position: fixed;
   top: 50%;
@@ -74,11 +76,13 @@ function Open({ children, opens: opensWindowName }) {
 function Window({ children, name }) {
   const { openName, close } = useContext(ModalContext);
 
+  const ref = useCloseOutsideClick(close); //because of using useEffect we cant conditionally call the hook which means taht line 'if (name !== openName) return null;' has to be after the hook call,
+
   if (name !== openName) return null;
 
   return createPortal(
     <Overlay>
-      <StyledModal>
+      <StyledModal ref={ref}>
         <Button onClick={close}>
           <HiXMark />
         </Button>
@@ -93,3 +97,5 @@ Modal.Open = Open;
 Modal.Window = Window;
 
 export default Modal;
+
+export { ModalContext };

@@ -3,6 +3,8 @@ import { createPortal } from 'react-dom';
 
 import styled from 'styled-components';
 
+import useCloseOutsideClick from '../hooks/useCloseOutsideClick';
+
 const StyledModal = styled.div`
   position: fixed;
   top: 50%;
@@ -14,7 +16,12 @@ const StyledModal = styled.div`
   padding: 3.2rem 4rem;
   transition: all 0.5s;
 `;
-
+const StyledCloseButton = styled.button`
+  background: none;
+  position: fixed;
+  top: 2%;
+  right: 2%;
+`;
 const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -53,18 +60,34 @@ const Overlay = styled.div`
 // `;
 const CompaundContext = createContext();
 
-function Compound({ children }) {
+function Compaund({ children }) {
+  const [showCounter, setShowCounter] = useState(false);
+
   const [counter, setCounter] = useState(0);
   const rise = () => setCounter((c) => c + 1);
   const drop = () => setCounter((c) => c - 1);
 
   return (
-    <CompaundContext.Provider value={{ counter, rise, drop }}>
+    <CompaundContext.Provider
+      value={{ counter, rise, drop, showCounter, setShowCounter }}
+    >
       {children}
     </CompaundContext.Provider>
   );
 }
 
+function Open({ children }) {
+  const { setShowCounter } = useContext(CompaundContext);
+  return cloneElement(children, { onClick: () => setShowCounter(true) });
+}
+function Close({ children }) {
+  const { setShowCounter } = useContext(CompaundContext);
+  return (
+    <StyledCloseButton>
+      {cloneElement(children, { onClick: () => setShowCounter(false) })}
+    </StyledCloseButton>
+  );
+}
 function PlusButton({ children }) {
   const { rise } = useContext(CompaundContext);
   return cloneElement(children, {
@@ -82,25 +105,34 @@ function MinusButton({ children }) {
   });
 }
 
-function DisplayCounter({ children }) {
+function DisplayCounter() {
   const { counter } = useContext(CompaundContext);
-
-  return cloneElement(children, { showCounter: counter });
+  return (
+    <span style={{ fontSize: '2.4rem', margin: '0 1.6rem' }}>{counter}</span>
+  );
 }
 
 function Window({ children }) {
+  const { showCounter, setShowCounter } = useContext(CompaundContext);
+
+  const ref = useCloseOutsideClick(() => setShowCounter(false)); //because of using useEffect we cant conditionally call the hook which means taht line '
+
+  if (!showCounter) return null;
+
   return createPortal(
     <Overlay>
-      <StyledModal>
-        <div>{cloneElement(children, { onClose: close })}</div>
+      <StyledModal ref={ref}>
+        <div>{children}</div>
       </StyledModal>
     </Overlay>,
-    document.getElementById('modal-root'),
+    document.body,
   );
 }
-Compound.PlusButton = PlusButton;
-Compound.MinusButton = MinusButton;
-Compound.DisplayCounter = DisplayCounter;
-Compound.Window = Window;
+Compaund.PlusButton = PlusButton;
+Compaund.MinusButton = MinusButton;
+Compaund.DisplayCounter = DisplayCounter;
+Compaund.Window = Window;
+Compaund.Open = Open;
+Compaund.Close = Close;
 
-export default Compound;
+export default Compaund;
