@@ -43,7 +43,6 @@ function Filter({ filterField, elements }) {
     searchParams.set(filterField, filter);
     setSearchParams(searchParams);
   }
-
   return (
     <StyledFilter>
       {elements.map((element) => (
@@ -51,6 +50,7 @@ function Filter({ filterField, elements }) {
           key={element.criteria}
           onClick={() => handleFilterChange(element.criteria)}
           active={currentFilter === element.criteria}
+          disabled={currentFilter === element.criteria}
         >
           {element.description}
         </FilterButton>
