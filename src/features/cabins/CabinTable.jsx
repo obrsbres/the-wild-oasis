@@ -30,19 +30,16 @@ function CabinTable() {
   if (discountFilter === 'high-price')
     filteredCabins = cabins?.filter((cabin) => cabin.regularPrice > 4000);
 
-  filteredCabins = filteredCabins?.sort((a, b) => {
-    if (direction === 'asc') return a[field] - b[field];
-    else return b[field] - a[field];
-  });
-
   const sortedCabins = filteredCabins?.sort((a, b) => {
-    if (direction === 'asc') return (a[field] - b[field]) * modifier;
+    if (field === 'name') return a.name.localeCompare(b.name) * modifier;
+
+    return (a[field] - b[field]) * modifier;
   });
 
   if (isLoading) return <Spinner />;
 
   if (filteredCabins.length === 0) return <Empty resource='cabins' />;
-
+  console.log(filteredCabins, sortedCabins);
   return (
     <Menus>
       <Table columns='0.6fr 1.8fr 2.2fr 1fr 1fr 1fr'>
