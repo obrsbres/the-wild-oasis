@@ -1,6 +1,6 @@
-import SortBy from 'ui/SortBy';
-import Filter from 'ui/Filter';
-import TableOperations from 'ui/TableOperations';
+import SortBy from '../../ui/SortBy';
+import Filter from '../../ui/Filter';
+import TableOperations from '../../ui/TableOperations';
 
 function BookingTableOperations() {
   return (
@@ -8,11 +8,11 @@ function BookingTableOperations() {
       {/* We could do these two as compound components as well, but let's keep it simple, and let's also explore different ways of achieving the same thing */}
       <Filter
         filterField='status'
-        options={[
-          { value: 'all', label: 'All' },
-          { value: 'checked-out', label: 'Checked out' },
-          { value: 'checked-in', label: 'Checked in' },
-          { value: 'unconfirmed', label: 'Unconfirmed' },
+        elements={[
+          { criteria: 'all', description: 'All' },
+          { criteria: 'checked-out', description: 'Checked out' },
+          { criteria: 'checked-in', description: 'Checked in' },
+          { criteria: 'unconfirmed', description: 'Unconfirmed' },
         ]}
       />
 

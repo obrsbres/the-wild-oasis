@@ -2,12 +2,13 @@ import { createContext, useContext, useState } from 'react';
 import { HiEllipsisVertical } from 'react-icons/hi2';
 import styled from 'styled-components';
 import { createPortal } from 'react-dom';
+import useCloseOnClickOutside from '../hooks/useCloseOutsideClick';
+
 const Menu = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
 `;
-import useCloseOnClickOutside from '../hooks/useCloseOutsideClick';
 const StyledToggle = styled.button`
   background: none;
   border: none;
@@ -63,6 +64,7 @@ const StyledButton = styled.button`
   }
 `;
 const MenusContext = createContext();
+
 function Menus({ children }) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [openId, setOpenId] = useState();

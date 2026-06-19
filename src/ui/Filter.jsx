@@ -40,12 +40,13 @@ function Filter({ filterField, elements }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentFilter = searchParams.get(filterField) || 'all';
   function handleFilterChange(filter) {
+    if (searchParams.get('page')) searchParams.set('page', 1);
     searchParams.set(filterField, filter);
     setSearchParams(searchParams);
   }
   return (
     <StyledFilter>
-      {elements.map((element) => (
+      {elements?.map((element) => (
         <FilterButton
           key={element.criteria}
           onClick={() => handleFilterChange(element.criteria)}

@@ -1,10 +1,11 @@
-import { useUser } from 'features/authentication/useUser';
 import { useState } from 'react';
-import Button from 'ui/Button';
-import FileInput from 'ui/FileInput';
-import Form from 'ui/Form';
-import FormRow from 'ui/FormRow';
-import Input from 'ui/Input';
+
+import { useUser } from './useUser';
+import Button from '../../ui/Button';
+import FileInput from '../../ui/FileInput';
+import Form from '../../ui/Form';
+import FormRow from '../../ui/FormRow';
+import Input from '../../ui/Input';
 import { useUpdateUser } from './useUpdateUser';
 
 function UpdateUserDataForm() {
@@ -16,10 +17,10 @@ function UpdateUserDataForm() {
     },
   } = useUser();
 
-  const [fullName, setFullName] = useState(currentFullName);
+  const [fullName, setFullName] = useState(currentFullName); //we can set it directly without hook and getting and checking because user state will allready be loaded.
   const [avatar, setAvatar] = useState(null);
 
-  const { mutate: updateUser, isLoading: isUpdating } = useUpdateUser();
+  const { updateUser, isUpdating } = useUpdateUser();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -33,11 +34,11 @@ function UpdateUserDataForm() {
           // Resetting form using .reset() that's available on all HTML form elements, otherwise the old filename will stay displayed in the UI
           e.target.reset();
         },
-      }
+      },
     );
   }
 
-  function handleCancel(e) {
+  function handleCancel() {
     // We don't even need preventDefault because this button was designed to reset the form (remember, it has the HTML attribute 'reset')
     setFullName(currentFullName);
     setAvatar(null);
@@ -67,7 +68,12 @@ function UpdateUserDataForm() {
         />
       </FormRow>
       <FormRow>
-        <Button onClick={handleCancel} type='reset' variation='secondary'>
+        <Button
+          onClick={handleCancel}
+          disabled={isUpdating}
+          type='reset'
+          variation='secondary'
+        >
           Cancel
         </Button>
         <Button disabled={isUpdating}>Update account</Button>

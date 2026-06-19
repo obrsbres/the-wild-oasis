@@ -1,26 +1,25 @@
-import { useEffect, useState } from 'react';
-import { formatCurrency } from 'utils/helpers';
+import { useEffect, useState, useRef } from 'react';
 
-import Spinner from 'ui/Spinner';
-import Row from 'ui/Row';
-import Heading from 'ui/Heading';
-import ButtonGroup from 'ui/ButtonGroup';
-import Button from 'ui/Button';
-import ButtonText from 'ui/ButtonText';
-import Checkbox from 'ui/Checkbox';
+import { formatCurrency } from '../../utils/helpers';
 
-import BookingDataBox from 'features/bookings/BookingDataBox';
+import Spinner from '../../ui/Spinner';
+import Row from '../../ui/Row';
+import Heading from '../../ui/Heading';
+import ButtonGroup from '../../ui/ButtonGroup';
+import Button from '../../ui/Button';
+import ButtonText from '../../ui/ButtonText';
+import Checkbox from '../../ui/Checkbox';
 
-import { useBooking } from 'features/bookings/useBooking';
-import { useMoveBack } from 'hooks/useMoveBack';
+import BookingDataBox from '../../features/bookings/BookingDataBox';
+
+import { useBooking } from '../../features/bookings/useBooking';
+import { useMoveBack } from '../../hooks/useMoveBack';
 import { useCheckin } from './useCheckin';
-
 import styled from 'styled-components';
-import { box } from 'styles/styles';
-import { useSettings } from 'features/settings/useSettings';
+// import { box } from 'styles/styles';
+import { useSettings } from '../../features/settings/useSettings';
 
 const Box = styled.div`
-  ${box}
   padding: 2.4rem 4rem;
 `;
 
@@ -29,14 +28,17 @@ function CheckinBooking() {
   const [addBreakfast, setAddBreakfast] = useState(false);
 
   const { booking, isLoading } = useBooking();
-  const { mutate: checkin, isLoading: isCheckingIn } = useCheckin();
+  const { checkin, isCheckingIn } = useCheckin();
   const moveBack = useMoveBack();
   const { isLoading: isLoadingSettings, settings } = useSettings();
 
   // Can't use as initial state, because booking will still be loading
-  useEffect(() => setConfirmPaid(booking?.isPaid ?? false), [booking]);
-
-  if (isLoading || isLoadingSettings) return <Spinner />;
+  //useRef is used to store a mutable value that does not cause a re-render when updated. In this case, it is used to store the initial value of booking?.isPaid, which is then used in the useEffect hook to set the confirmPaid state when the booking data is loaded.
+  const ref = useRef(booking?.isPaid ?? false);
+  useEffect(() => {
+    const { isConfirmedPay } = ref.current;
+    setConfirmPaid(isConfirmedPay);
+  }, [booking]);
 
   const {
     id: bookingId,
@@ -45,10 +47,9 @@ function CheckinBooking() {
     numGuests,
     hasBreakfast,
     numNights,
-  } = booking;
-
+  } = booking || {};
   const optionalBreakfastPrice =
-    numNights * settings.breakfastPrice * numGuests;
+    numNights * settings?.breakfastPrice * numGuests;
 
   function handleCheckin() {
     if (!confirmPaid) return;
@@ -65,6 +66,8 @@ function CheckinBooking() {
     else checkin({ bookingId, breakfast: {} });
   }
 
+  if (isLoading || isLoadingSettings) return <Spinner />;
+
   // We return a fragment so that these elements fit into the page's layout
   return (
     <>
@@ -75,7 +78,6 @@ function CheckinBooking() {
 
       <BookingDataBox booking={booking} />
 
-      {/* LATER */}
       {!hasBreakfast && (
         <Box>
           <Checkbox
@@ -103,9 +105,9 @@ function CheckinBooking() {
           {!addBreakfast
             ? formatCurrency(totalPrice)
             : `${formatCurrency(
-                totalPrice + optionalBreakfastPrice
+                totalPrice + optionalBreakfastPrice,
               )} (${formatCurrency(totalPrice)} + ${formatCurrency(
-                optionalBreakfastPrice
+                optionalBreakfastPrice,
               )} for breakfast)`}
         </Checkbox>
       </Box>

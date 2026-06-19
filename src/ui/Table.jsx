@@ -20,7 +20,6 @@ const CommonRow = styled.header`
 
 const StyledHeader = styled(CommonRow)`
   padding: 1.6rem 2.4rem;
-
   background-color: var(--color-grey-50);
   border-bottom: 1px solid var(--color-grey-100);
   text-transform: uppercase;
@@ -77,7 +76,7 @@ function Header({ children }) {
   );
 }
 function Body({ data, render }) {
-  return <StyledBody>{data.map(render)}</StyledBody>;
+  return <StyledBody>{data?.map(render)}</StyledBody>;
 }
 function Row({ children }) {
   const { columns } = useContext(TableContext);

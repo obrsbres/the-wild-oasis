@@ -1,11 +1,11 @@
 import { isFuture, isPast, isToday } from 'date-fns';
 import { useState } from 'react';
-import supabase from 'services/supabase';
-import Button from 'ui/Button';
-import { subtractDates } from 'utils/helpers';
-import { bookings } from './data-bookings';
-import { cabins } from './data-cabins';
-import { guests } from './data-guests';
+import supabase from '../services/supabase';
+import Button from '../ui/Button';
+import { subtractDates } from '../utils/helpers';
+import { bookings } from '../data/data-bookings';
+import { cabins } from '../data/data-cabins';
+import { guests } from '../data/data-guests';
 
 // const originalSettings = {
 //   minBookingLength: 3,
@@ -93,7 +93,7 @@ async function createBookings() {
     };
   });
 
-  console.log(finalBookings);
+  // console.log(finalBookings);
 
   const { error } = await supabase.from('bookings').insert(finalBookings);
   if (error) console.log(error.message);
@@ -156,3 +156,4 @@ export function Uploader() {
     </div>
   );
 }
+export default Uploader

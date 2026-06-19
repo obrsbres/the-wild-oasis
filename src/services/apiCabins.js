@@ -18,6 +18,8 @@ export async function createEditCabin(newCabin, id) {
     "/",
     ""
   );
+  // https://xxsoosyisoxoxumafovm.supabase.co/storage/v1/object/public/avatars/cabin-001.jpg
+  // https://xxsoosyisoxoxumafovm.supabase.co/storage/v1/object/public/avatars/cabin-001.jpg
   const imagePath = hasImagePath
   ? newCabin.image
   : `${supabaseUrl}/storage/v1/object/public/avatars/${imageName}`;

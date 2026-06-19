@@ -18,7 +18,7 @@ function CabinTable() {
   const modifier = direction === 'asc' ? 1 : -1;
 
   let filteredCabins;
-
+  if (!cabins?.length) return <Empty resourceName={'cabins'}/>
   if (discountFilter === 'all') filteredCabins = cabins;
 
   if (discountFilter === 'with-discount')
@@ -28,7 +28,7 @@ function CabinTable() {
     filteredCabins = cabins?.filter((cabin) => cabin.discount === 0);
 
   if (discountFilter === 'high-price')
-    filteredCabins = cabins?.filter((cabin) => cabin.regularPrice > 4000);
+    filteredCabins = cabins?.filter((cabin) => cabin.regularPrice > 300);
 
   const sortedCabins = filteredCabins?.sort((a, b) => {
     if (field === 'name') return a.name.localeCompare(b.name) * modifier;
@@ -38,8 +38,8 @@ function CabinTable() {
 
   if (isLoading) return <Spinner />;
 
-  if (filteredCabins.length === 0) return <Empty resource='cabins' />;
-  console.log(filteredCabins, sortedCabins);
+  if (filteredCabins?.length === 0) return <Empty resource='cabins' />;
+  // console.log(filteredCabins, sortedCabins);
   return (
     <Menus>
       <Table columns='0.6fr 1.8fr 2.2fr 1fr 1fr 1fr'>
