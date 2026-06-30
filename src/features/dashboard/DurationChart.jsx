@@ -1,4 +1,4 @@
-import { useDarkMode } from 'context/DarkModeContext';
+import { useDarkMode } from '../../context/DarkModeContext';
 import {
   Cell,
   Legend,
@@ -8,11 +8,11 @@ import {
   Tooltip,
 } from 'recharts';
 import styled from 'styled-components';
-import { box } from 'styles/styles';
-import Heading from 'ui/Heading';
+// import { box } from 'styles/styles';
+import Heading from '../../ui/Heading';
 
 const ChartBox = styled.div`
-  ${box}
+ 
   padding: 2.4rem 3.2rem;
 
   grid-column: 3 / span 2;
@@ -35,12 +35,12 @@ const startDataLight = {
   },
   '2 nights': {
     duration: '2 nights',
-    value: 0,
+    value: 3,
     color: '#f97316',
   },
   '3 nights': {
     duration: '3 nights',
-    value: 0,
+    value: 4,
     color: '#eab308',
   },
   '4-5 nights': {
@@ -50,12 +50,12 @@ const startDataLight = {
   },
   '6-7 nights': {
     duration: '6-7 nights',
-    value: 0,
+    value: 3,
     color: '#22c55e',
   },
   '8-14 nights': {
     duration: '8-14 nights',
-    value: 0,
+    value: 2,
     color: '#14b8a6',
   },
   '15-21 nights': {
@@ -117,7 +117,7 @@ const startDataDark = {
 const startDataLight = [
   {
     duration: '1 night',
-    value: 0,
+    value: 2,
     color: '#ef4444',
   },
   {
@@ -127,22 +127,22 @@ const startDataLight = [
   },
   {
     duration: '3 nights',
-    value: 0,
+    value: 4,
     color: '#eab308',
   },
   {
     duration: '4-5 nights',
-    value: 0,
+    value: 2,
     color: '#84cc16',
   },
   {
     duration: '6-7 nights',
-    value: 0,
+    value: 5,
     color: '#22c55e',
   },
   {
     duration: '8-14 nights',
-    value: 0,
+    value: 6,
     color: '#14b8a6',
   },
   {
@@ -152,7 +152,7 @@ const startDataLight = [
   },
   {
     duration: '21+ nights',
-    value: 0,
+    value: 2,
     color: '#a855f7',
   },
 ];
@@ -160,7 +160,7 @@ const startDataLight = [
 const startDataDark = [
   {
     duration: '1 night',
-    value: 0,
+    value: 12,
     color: '#b91c1c',
   },
   {
@@ -307,7 +307,7 @@ function DurationChart({ confirmedStays }) {
             startAngle={180}
             endAngle={-180}
           >
-            {data.map((entry, i) => (
+            {data.map((entry) => (
               <Cell
                 key={entry.duration}
                 fill={entry.color}

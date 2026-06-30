@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import HeaderMenu from './HeaderMenu';
 import UserAvatar from '../features/authentication/UserAvatar';
+import DarkModeToogle from './DarkModeToogle';
 const StyledHeader = styled.header`
   display: flex;
   justify-content: flex-end;
@@ -16,6 +17,7 @@ function Header() {
   return (
     <StyledHeader>
       <UserAvatar />
+      <DarkModeToogle/>
       <HeaderMenu />
     </StyledHeader>
   );

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 // import defaultAvatar from '../../data/cabins/cabin-001.jpg';
 import { useUser } from '../../features/authentication/useUser';
+import Heading from '../../ui/Heading';
 const StyledUserAvatar = styled.div`
   display: flex;
   gap: 1.2rem;
@@ -27,6 +28,7 @@ function UserAvatar() {
   return (
     <StyledUserAvatar>
       <Avatar src={avatar || 'default-user.jpg'} alt={fullName} />
+       <Heading as='h2'>{fullName}</Heading>
     </StyledUserAvatar>
   );
 }

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { box } from 'styles/styles';
+// import { box } from 'styles/styles';
 
 const StyledStat = styled.div`
-  ${box}
+
 
   padding: 1.6rem;
   display: grid;

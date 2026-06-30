@@ -29,10 +29,10 @@ import Empty from '../../ui/Empty';
 
 function BookingTable() {
   const { bookings, count, isLoading } = useBookings();
- 
-  if (isLoading) return <Spinner />;
-  if (!bookings?.length) return <Empty resourceName={'bookings'} />;
 
+  if (isLoading) return <Spinner />;
+
+  if (!bookings?.length) return <Empty resourceName={'bookings'} />;
 
   // VIDEO stupid JS bug, just an example of course
   // null.toUpperCase();
