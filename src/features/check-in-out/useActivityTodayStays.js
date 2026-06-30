@@ -8,7 +8,7 @@ export function useActivityTodayStays() {
 export function useTodayActivity() {
   const { isLoading, data: activities } = useQuery({
     queryFn: getStaysTodayActivity,
-    queryKey: ['today-activity'],
+    queryKey: ['togiday-activity'],
   });
   return { activities, isLoading };
 }
